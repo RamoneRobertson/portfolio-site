@@ -1,3 +1,6 @@
+row {
+  margin: 0px;
+}
 .banner {
   height: 100vh;
 }
@@ -5,6 +8,10 @@
 
   #first-name {
     color: #c1e9ab;
+  }
+
+  .highlight {
+    color: #e23348;
   }
 
   .title-main {
@@ -16,6 +23,13 @@
   #hero-statement {
     margin: 0 0 20px;
     box-sizing: border-box;
+    font-size: 1.25vw;
+    font-family: "Montserrat";
+  }
+
+  .btn {
+    background: black;
+    color: white;
   }
 }
 
@@ -23,5 +37,6 @@
 
   img{
     width: 100%;
+    max-height: 100%;
   }
 }
