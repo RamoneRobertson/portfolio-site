@@ -1,19 +1,26 @@
-// .banner {
-//   height: 100vh;
-// }
+.banner {
+  height: 100vh;
+}
 .hero {
 
-  .first-name {
-
+  #first-name {
+    color: #c1e9ab;
   }
 
   .title-main {
+    width: 100%;
     font-family: 'Anton';
     font-size: 7.2rem;
+  }
+
+  #hero-statement {
+    margin: 0 0 20px;
+    box-sizing: border-box;
   }
 }
 
 .hero-img {
+
   img{
     width: 100%;
   }
