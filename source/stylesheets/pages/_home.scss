@@ -1,1 +1,11 @@
 // Specific CSS for your home-page
+.section {
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+.main-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
