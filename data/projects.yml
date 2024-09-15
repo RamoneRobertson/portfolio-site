@@ -1,8 +1,9 @@
-- name: Longest Word Game
-  description: Decent description of the app
-  image: projects/placeholder.png
-  url: https://www.google.com
-  github: https://www.github.com
+- name: AnimePanda
+  description: An anime reccomendation application that uses OpenAI's API (ChatGpt) to curate real-time personalized recommendations based on the users watch history and preferences.
+  image: projects/AnimePanda.png
+  url: https://www.animepanda.me
+  github: https://github.com/RamoneRobertson/AnimePanda
+  stack: ["ruby on rails", "javascript", "bootstrap", "html", "css", "heroku"]
   online: true
 
 - name: Movie Watchlist
@@ -17,14 +18,14 @@
   image: projects/placeholder.png
   url: https://www.google.com
   github: https://www.github.com
-  online: true
+  online: false
 
 - name: Final project
   description: Decent description of the app
   image: projects/placeholder.png
   url: https://www.google.com
   github: https://www.github.com
-  online: true
+  online: false
 
 - name: Yelp
   description: Decent description of the app
