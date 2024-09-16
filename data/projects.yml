@@ -1,35 +1,42 @@
 - name: AnimePanda
-  description: An anime reccomendation application that uses OpenAI's API (ChatGpt) to curate real-time personalized recommendations based on the users watch history and preferences.
+  description: An anime reccomendation application that uses OpenAI's API (ChatGPT) to curate real-time personalized recommendations based on the users watch history and preferences.
   image: projects/AnimePanda.png
   url: https://www.animepanda.me
   github: https://github.com/RamoneRobertson/AnimePanda
-  stack: ["ruby on rails", "javascript", "bootstrap", "html", "css", "heroku"]
+  stack:
+    - /images/projects/stack/ror-icon.svg
+    - /images/projects/stack/db-icon.svg
+    - /images/projects/stack/js-icon.svg
+    - /images/projects/stack/bootstrap-icon.svg
+    - /images/projects/stack/html-icon.svg
+    - /images/projects/stack/css-icon.svg
+    - /images/projects/stack/heroku-icon.svg
   online: true
 
-- name: Movie Watchlist
-  description: Decent description of the app
-  image: projects/placeholder.png
-  url: https://www.google.com
-  github: https://www.github.com
-  online: true
+# - name: Movie Watchlist
+#   description: Decent description of the app
+#   image: projects/placeholder.png
+#   url: https://www.google.com
+#   github: https://www.github.com
+#   online: true
 
-- name: Airbnb
-  description: Decent description of the app
-  image: projects/placeholder.png
-  url: https://www.google.com
-  github: https://www.github.com
-  online: false
+# - name: Airbnb
+#   description: Decent description of the app
+#   image: projects/placeholder.png
+#   url: https://www.google.com
+#   github: https://www.github.com
+#   online: false
 
-- name: Final project
-  description: Decent description of the app
-  image: projects/placeholder.png
-  url: https://www.google.com
-  github: https://www.github.com
-  online: false
+# - name: Final project
+#   description: Decent description of the app
+#   image: projects/placeholder.png
+#   url: https://www.google.com
+#   github: https://www.github.com
+#   online: false
 
-- name: Yelp
-  description: Decent description of the app
-  image: projects/placeholder.png
-  url: https://www.google.com
-  github: https://www.github.com
-  online: false
+# - name: Yelp
+#   description: Decent description of the app
+#   image: projects/placeholder.png
+#   url: https://www.google.com
+#   github: https://www.github.com
+#   online: false

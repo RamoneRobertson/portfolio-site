@@ -1,20 +1,22 @@
 <div class="row my-5">
   <div class="col-12">
-    <div id="projects" class="container">
+    <div id="projects" class="container my-5">
       <% data.projects.each do |project| %>
         <div class="proj-wrapper d-flex my-5 section">
           <div class="col-6">
             <h3><%= project.name %></h3>
-            <hr>
-            <p><%= project.description %></p>
+            <hr id="bold-divider">
+            <span><%= project.description %></span>
             <div class="tech-stack">
-              <%= project.stack %>
+              <% project["stack"].each do |skill| %>
+                <img src="<%= skill %>" alt="#">
+              <% end %>
             </div>
             <button>View Project</button>
           </div>
           <div class="col-6">
             <a href="<%= project.url%>">
-              <%= image_tag project.image, class: "w-100", alt: "An image showing an application project" %>
+              <%= image_tag project.image, class: "w-100 proj-img", alt: "An image showing an application project" %>
             </a>
           </div>
         </div>

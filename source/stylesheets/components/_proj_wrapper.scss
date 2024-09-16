@@ -1,5 +1,14 @@
-.proj-wrppaer {
-  img {
-    height: 100%;
+.proj-wrapper {
+
+  .bold-divider{
+    font-weight: bolder;
+    color: black;
+    height: 6px;
+    border-top: 10px solid $black;
+  }
+
+  .proj-img{
+    margin-left: 16px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
   }
 }
