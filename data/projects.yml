@@ -5,12 +5,15 @@
   github: https://github.com/RamoneRobertson/AnimePanda
   stack:
     - /images/projects/stack/ror-icon.svg
+    - /images/projects/stack/ruby-icon.svg
     - /images/projects/stack/db-icon.svg
     - /images/projects/stack/js-icon.svg
     - /images/projects/stack/bootstrap-icon.svg
     - /images/projects/stack/html-icon.svg
     - /images/projects/stack/css-icon.svg
     - /images/projects/stack/heroku-icon.svg
+  role: Full-Stack Developer
+  role_desc: I designed and built the logic for the swiping/recommendation page. When the user request a new recommendation they are able to vote like or dislike on 5 anime recommended by ChatGPT's API. I handled all of the frontend and most of the backend aspects of this page.
   online: true
 
 # - name: Movie Watchlist

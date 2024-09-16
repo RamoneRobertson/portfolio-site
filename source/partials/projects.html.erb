@@ -3,16 +3,26 @@
     <div id="projects" class="container my-5">
       <% data.projects.each do |project| %>
         <div class="proj-wrapper d-flex my-5 section">
-          <div class="col-6">
+          <div class="col-6 proj-info">
             <h3><%= project.name %></h3>
             <hr id="bold-divider">
-            <span><%= project.description %></span>
-            <div class="tech-stack">
+            <p class="my-3"><%= project.description %></p>
+            <h4>Tech Stack</h4>
+            <div class="tech-stack mb-3">
               <% project["stack"].each do |skill| %>
-                <img src="<%= skill %>" alt="#">
+                <div class="skill-div d-flex">
+                  <img src="<%= skill %>" class="skill-img" alt="#">
+                </div>
               <% end %>
             </div>
-            <button>View Project</button>
+            <h4>Role: <%= project.role %></h4>
+            <div class="role-desc my-3">
+              <%= project.role_desc %>
+            </div>
+            <div class="proj-links">
+              <a href="#" class="btn">View Project</a>
+              <a href="#" class="btn">Github</a>
+            </div>
           </div>
           <div class="col-6">
             <a href="<%= project.url%>">

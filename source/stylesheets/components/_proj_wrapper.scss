@@ -1,14 +1,42 @@
 .proj-wrapper {
 
-  .bold-divider{
+  .bold-divider {
     font-weight: bolder;
     color: black;
     height: 6px;
     border-top: 10px solid $black;
   }
 
-  .proj-img{
+  .proj-info {
+    p {
+
+    }
+  }
+
+  .proj-img {
     margin-left: 16px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  }
+
+  .tech-stack {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+    width: 342px;
+  }
+
+  .skill-div {
+    height: 48px;
+    width: 48px;
+    background-color: $black;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+
+  .skill-img{
+    height: 48px;
+    width: 48px;
   }
 }
