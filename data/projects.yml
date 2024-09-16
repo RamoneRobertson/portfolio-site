@@ -1,6 +1,7 @@
 - name: AnimePanda
   description: An anime reccomendation application that uses OpenAI's API (ChatGPT) to curate real-time personalized recommendations based on the users watch history and preferences.
   image: projects/AnimePanda.png
+  video: projects/AnimePandaSwiping.mp4
   url: https://www.animepanda.me
   github: https://github.com/RamoneRobertson/AnimePanda
   stack:
