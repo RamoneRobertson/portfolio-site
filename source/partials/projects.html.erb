@@ -4,9 +4,9 @@
       <% data.projects.each do |project| %>
         <div class="proj-wrapper d-flex my-5 section">
           <div class="col-6 proj-info">
-            <h3><%= project.name %></h3>
+            <h3 class="hidden"><%= project.name %></h3>
             <hr id="bold-divider">
-            <p class="my-3"><%= project.description %></p>
+            <p class="my-3 hidden"><%= project.description %></p>
             <h4>Role: <%= project.role %></h4>
             <div class="role-desc my-3">
               <%= project.role_desc %>
@@ -14,7 +14,7 @@
             <h4>Tech Stack</h4>
             <div class="tech-stack my-3">
               <% project["stack"].each_pair do |skill_name, img_url| %>
-                <div class="skill-div d-flex">
+                <div class="skill-div d-flex hidden">
                   <img src="<%= img_url %>" class="skill-img" alt="#">
                   <p class="skill-name"><%= skill_name %></p>
                 </div>
