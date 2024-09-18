@@ -1,8 +1,9 @@
 // This is where it all goes :)
 const observer = new IntersectionObserver((entries) => {
+  console.log('method running');
   entries.forEach((entry) => {
-    console.log(entry)
-    if(entry.isIntersecting){
+
+    if(entry.isIntersecting) {
       entry.target.classList.add('show');
     } else {
       entry.target.classList.remove('show');
@@ -10,5 +11,8 @@ const observer = new IntersectionObserver((entries) => {
   });
 });
 
-const hiddenElements = document.querySelectorAll('.hidden')
+const hiddenElements = document.querySelectorAll('.hidden');
 hiddenElements.forEach((el) => observer.observe(el));
+hiddenElements.forEach((el) => {
+  consolelog(el)
+});
