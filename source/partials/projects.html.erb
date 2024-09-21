@@ -2,7 +2,7 @@
   <div class="col-12">
     <div id="projects" class="container my-5">
       <% data.projects.each do |project| %>
-        <div class="proj-wrapper d-flex my-5 section">
+        <div class="proj-wrapper d-flex p-5 my-5 section">
           <div class="col-6 proj-info">
             <h3 class="fade-in-section"><%= project.name %></h3>
             <hr class="fade-in-section">
@@ -20,13 +20,17 @@
                 </div>
               <% end %>
             </div>
-            <div class="proj-links">
-              <a href="#" class="btn fade-in-section">View Project</a>
-              <a href="#" class="btn fade-in-section">Github</a>
-            </div>
           </div>
           <div class="col-6 fade-in-section">
             <video preload="auto" autoplay muted loop class="w-100 proj-media" src="/images/projects/AnimePandaSwiping.mp4" alt="A video showing a demo of a anime mobile application"></video>
+            <div class="proj-links">
+              <a href="<%= project.url %>" class="proj-btn fade-in-section">
+                <i class="fa-solid fa-link" style="color: #ffffff;"></i> View Project
+              </a>
+              <a href="<%= project.github %>" class="proj-btn  fade-in-section">
+                <i class="fa-brands fa-github" style="color: #ffffff;"></i> Github
+              </a>
+            </div>
           </div>
         </div>
       <% end %>
