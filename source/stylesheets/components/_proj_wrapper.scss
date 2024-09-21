@@ -66,12 +66,17 @@
     width: 12em;
     margin: 16px;
     transition: transform .2s;
+    text-decoration: none;
+    color: $white;
   }
 
   .proj-btn:hover{
     transform: scale(1.2);
     background-color: $green;
-    color: $white;
+  }
+
+  .proj-btn:visited{
+    text-decoration: none;
   }
 }
 
