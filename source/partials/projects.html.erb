@@ -4,25 +4,27 @@
       <% data.projects.each do |project| %>
         <div class="proj-wrapper d-flex p-5 my-5 section">
           <div class="col-6 proj-info">
-            <h3 class="fade-in-section"><%= project.name %></h3>
-            <hr class="fade-in-section">
-            <p class="my-3 fade-in-section"><%= project.description %></p>
-            <h4>Role: <%= project.role %></h4>
-            <div class="role-desc my-3 fade-in-section">
-              <p><%= project.role_desc %></p>
-            </div>
-            <h4 class="fade-in-section">Tech Stack</h4>
-            <div class="tech-stack my-3">
-              <% project["stack"].each_pair do |skill_name, img_url| %>
-                <div class="skill-div d-flex fade-in-section">
-                  <img src="<%= img_url %>" class="skill-img" alt="#">
-                  <p class="skill-name"><%= skill_name %></p>
-                </div>
-              <% end %>
+            <div class="glassy-text">
+              <h3 class="fade-in-section"><%= project.name %></h3>
+              <hr class="fade-in-section">
+              <p class="my-3 fade-in-section"><%= project.description %></p>
+              <h4>Role: <%= project.role %></h4>
+              <div class="role-desc my-3 fade-in-section">
+                <p><%= project.role_desc %></p>
+              </div>
+              <h4 class="fade-in-section">Tech Stack</h4>
+              <div class="tech-stack my-3">
+                <% project["stack"].each_pair do |skill_name, img_url| %>
+                  <div class="skill-div d-flex fade-in-section">
+                    <img src="<%= img_url %>" class="skill-img" alt="#">
+                    <p class="skill-name"><%= skill_name %></p>
+                  </div>
+                <% end %>
+              </div>
             </div>
           </div>
           <div class="col-6 fade-in-section">
-            <video preload="auto" autoplay muted loop class="w-100 proj-media" src="/images/projects/AnimePandaSwiping.mp4" alt="A video showing a demo of a anime mobile application"></video>
+            <video preload="auto" autoplay muted loop class="w-100 proj-media" src="<%= project.video %>" alt="A video showing a demo of a anime mobile application"></video>
             <div class="proj-links">
               <a href="<%= project.url %>" class="proj-btn fade-in-section">
                 <i class="fa-solid fa-link" style="color: #ffffff;"></i> View Project
