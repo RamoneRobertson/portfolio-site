@@ -1,24 +1,24 @@
-<div class="container">
-  <video autoplay muted loop id="banner-video">
-    <source src="/images/waves.mp4" type="video/mp4">
-  </video>
-  <div class="row justify-content-center banner">
-    <div class="col-12 d-flex h-100">
-      <div class="hero col-8">
-        <h1 class="title-main">Hi, Im <span id="first-name">Ramone</span></h1>
-        <div class="glassy-text">
-          <p id="hero-statement" class="my-3">
-            It's nice to meet you! Im a <span class="highlight">Full-Stack Web Developer</span> in Tokyo who loves bringing ideas to life with code!
-            I work mostly with <span class="highlight">Ruby</span>, <span class="highlight">SQL</span>, <span class="highlight">JavaScript</span> and <span class="highlight">REST APIs.</span>
-            Feel free to explore my work and checkout my latest projects!
+<div class="container centered-landing">
+  <div class="row banner">
+    <div class="col-sm-12 col-12">
+       <div class="avatar-img d-flex justify-content-center align-items-center">
+        <div class="module-border-wrap">
+          <%= image_tag 'avatar.png', class: "avatar", alt: "profile photo" %>
+        </div>
+      </div>
+      <div class="hero d-flex flex-column align-items-center">
+        <div class="greeting-wrapper">
+          <h1 class="center-greeting">Hi, I'm <span id="first-name">Ramone</span></h1>
+        </div>
+        <div class="self-intro">
+          <p>
+            A ruby on rails developer living in Tokyo. With 5 YOE in system integration,
+            I am on a journey to upskill and transition into full-stack development,
+            leveraging my background to build impactful web applications that bridge technology and user needs.
           </p>
         </div>
-        <button class="btn my-3">Learn More</button>
         <!-- Social Links Section -->
         <%= partial 'partials/social' %>
-      </div>
-      <div class="hero-img col-4">
-        <%= image_tag 'profile-portfolio.png', alt: "profile photo" %>
       </div>
     </div>
   </div>
