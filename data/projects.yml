@@ -21,8 +21,16 @@
 #   image: projects/placeholder.png
 #   url: https://www.google.com
 #   github: https://www.github.com
+#   stack:
+#     Rails: /images/projects/stack/ror-icon.svg
+#     Ruby: /images/projects/stack/ruby-icon.svg
+#     PostgresSQL: /images/projects/stack/db-icon.svg
+#     JavaScript: /images/projects/stack/js-icon.svg
+#     Bootstrap: /images/projects/stack/bootstrap-icon.svg
+#     HTML: /images/projects/stack/html-icon.svg
+#     CSS: /images/projects/stack/css-icon.svg
+#     Heroku: /images/projects/stack/heroku-icon.svg
 #   online: true
-
 # - name: Airbnb
 #   description: Decent description of the app
 #   image: projects/placeholder.png

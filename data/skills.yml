@@ -1,0 +1,24 @@
+- skill: Ruby on Rails
+  image: /images/projects/stack/ror-icon.svg
+  description: Utilized Rails to build and manage back-end systems, handle data processing, and integrate third-party APIs. Focused on managing dynamic data, handling user preferences through database interactions, and updating the system based on user inputs and actions from the front-end.
+  projects:
+- skill: Javascript
+  image: /images/projects/stack/js-icon.svg
+  description: Employed JavaScript to create dynamic, interactive user interfaces. Handled asynchronous data exchange between the front-end and back-end using AJAX or the Fetch API to send user input and update the page content dynamically, without requiring a full page reload.
+  projects:
+- skill: HTML
+  image: /images/projects/stack/html-icon.svg
+  description: Used HTML to structure clean, accessible, and responsive layouts. Focused on creating intuitive page structures that ensure easy navigation and functionality across all device types.
+  projects:
+- skill: CSS
+  image: /images/projects/stack/css-icon.svg
+  description: Styled responsive and visually appealing interfaces using CSS. Applied techniques like Flexbox and Grid to ensure adaptive designs that look great on any screen, with a focus on user engagement through animations and transitions.
+  projects:
+- skill: Heroku
+  image: /images/projects/stack/heroku-icon.svg
+  description: Deployed and maintained applications on Heroku, ensuring that production environments were stable and scalable. Managed hosting configurations and optimized for performance, ensuring smooth deployment workflows.
+  projects:
+- skill: Bootstrap
+  image: /images/projects/stack/bootstrap-icon.svg
+  description: Leveraged Bootstrap to quickly build mobile-first, responsive layouts, using its prebuilt components and grid system to speed up development while maintaining a polished, user-friendly interface.
+  projects:
