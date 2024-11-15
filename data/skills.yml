@@ -1,24 +1,48 @@
-- skill: Ruby on Rails
+- name: Ruby on Rails
   image: /images/projects/stack/ror-icon.svg
-  description: Utilized Rails to build and manage back-end systems, handle data processing, and integrate third-party APIs. Focused on managing dynamic data, handling user preferences through database interactions, and updating the system based on user inputs and actions from the front-end.
+  description: Built resilient back-end systems, handled dynamic data, and smoothly integrated APIs for enhanced functionality.
   projects:
-- skill: Javascript
+- name: Javascript
   image: /images/projects/stack/js-icon.svg
-  description: Employed JavaScript to create dynamic, interactive user interfaces. Handled asynchronous data exchange between the front-end and back-end using AJAX or the Fetch API to send user input and update the page content dynamically, without requiring a full page reload.
+  description: Created interactive, real-time front-end experiences with asynchronous data flow and seamless back-end communication.
   projects:
-- skill: HTML
+- name: HTML
   image: /images/projects/stack/html-icon.svg
-  description: Used HTML to structure clean, accessible, and responsive layouts. Focused on creating intuitive page structures that ensure easy navigation and functionality across all device types.
+  description: Developed accessible, responsive layouts for smooth user navigation.
   projects:
-- skill: CSS
+- name: CSS
   image: /images/projects/stack/css-icon.svg
-  description: Styled responsive and visually appealing interfaces using CSS. Applied techniques like Flexbox and Grid to ensure adaptive designs that look great on any screen, with a focus on user engagement through animations and transitions.
+  description: Styled engaging, adaptive interfaces with responsive layouts and animations that enhance user interactions.
   projects:
-- skill: Heroku
+- name: Heroku
   image: /images/projects/stack/heroku-icon.svg
-  description: Deployed and maintained applications on Heroku, ensuring that production environments were stable and scalable. Managed hosting configurations and optimized for performance, ensuring smooth deployment workflows.
+  description: Deployed and scaled applications seamlessly, optimizing configurations for peak production performance.
   projects:
-- skill: Bootstrap
+- name: Bootstrap
   image: /images/projects/stack/bootstrap-icon.svg
-  description: Leveraged Bootstrap to quickly build mobile-first, responsive layouts, using its prebuilt components and grid system to speed up development while maintaining a polished, user-friendly interface.
+  description: Quickly built polished, responsive layouts using Bootstrap components.
+  projects:
+- name: Postman
+  image: /images/projects/stack/postman-icon.svg
+  description: Quickly built polished, responsive layouts using Bootstrap components.
+  projects:
+- name: Git
+  image: /images/projects/stack/git-icon.svg
+  description: Quickly built polished, responsive layouts using Bootstrap components.
+  projects:
+- name: PostgreSQL
+  image: /images/projects/stack/db-icon.svg
+  description: Quickly built polished, responsive layouts using Bootstrap components.
+  projects:
+- name: Figma
+  image: /images/projects/stack/figma-icon.svg
+  description: Quickly built polished, responsive layouts using Bootstrap components.
+  projects:
+- name: Notion
+  image: /images/projects/stack/notion-icon.svg
+  description: Quickly built polished, responsive layouts using Bootstrap components.
+  projects:
+- name: Visual Studio Code
+  image: /images/projects/stack/vscode-icon.svg
+  description: Quickly built polished, responsive layouts using Bootstrap components.
   projects:

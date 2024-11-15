@@ -1,4 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="skills-title">Skills</div>
+    <div class="skills-title">Tools and Tech</div>
+    <hr>
+    <div class="skill-grid">
+      <%data.skills.each do |skill|%>
+        <div class="skill-cell d-flex flex-column justify-content-center align-items-center">
+          <div> <img src="<%= skill.image %>" class="skill-img" alt="#"></div>
+          <div><%=skill.name%></div>
+        </div>
+      <%end%>
+    </div>
+  </div>
 </div>

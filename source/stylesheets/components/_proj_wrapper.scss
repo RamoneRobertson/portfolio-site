@@ -14,6 +14,12 @@
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   }
 
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
   .proj-media {
     margin-left: 16px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
