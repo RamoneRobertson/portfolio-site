@@ -5,3 +5,10 @@
   padding: 4px;
   border-radius: 50%;
 }
+
+.border-wrap {
+  padding: 1px;
+  // position: relative;
+  background: linear-gradient(to right, red, purple);
+  border-radius: 16px;
+}

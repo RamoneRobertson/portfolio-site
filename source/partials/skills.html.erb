@@ -4,9 +4,11 @@
     <hr>
     <div class="skill-grid">
       <%data.skills.each do |skill|%>
-        <div class="skill-cell d-flex flex-column justify-content-center align-items-center">
-          <div> <img src="<%= skill.image %>" class="skill-img" alt="#"></div>
-          <div><%=skill.name%></div>
+        <div class="border-wrap">
+          <div class="skill-cell d-flex flex-column justify-content-center align-items-center">
+            <div> <img src="<%= skill.image %>" class="skill-img" alt="#"></div>
+            <div><%=skill.name%></div>
+          </div>
         </div>
       <%end%>
     </div>

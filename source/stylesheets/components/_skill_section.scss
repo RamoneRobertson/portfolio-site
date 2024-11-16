@@ -9,18 +9,19 @@
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
-  padding: 16px;
+  padding: 8px;
 }
 
 .skill-cell {
+  // position: relative;
+  height: 100%;
   padding: 16px;
+  background: #161616;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  // border-style: solid;
+  // border-width: 1px;
+  // border-image: linear-gradient(to right, darkblue, darkorchid) 1;
   border-radius: 16px;
-  background: linear-gradient(
-    90deg,
-    rgba(44, 42, 88, 1) 0%,
-    rgba(1, 106, 128, 1) 100%
-  );
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 
   img {
     height: 75px;

@@ -1,48 +1,35 @@
 - name: Ruby on Rails
   image: /images/projects/stack/ror-icon.svg
-  description: Built resilient back-end systems, handled dynamic data, and smoothly integrated APIs for enhanced functionality.
-  projects:
+
 - name: Javascript
   image: /images/projects/stack/js-icon.svg
-  description: Created interactive, real-time front-end experiences with asynchronous data flow and seamless back-end communication.
-  projects:
+
 - name: HTML
   image: /images/projects/stack/html-icon.svg
-  description: Developed accessible, responsive layouts for smooth user navigation.
-  projects:
+
 - name: CSS
   image: /images/projects/stack/css-icon.svg
-  description: Styled engaging, adaptive interfaces with responsive layouts and animations that enhance user interactions.
-  projects:
+
 - name: Heroku
   image: /images/projects/stack/heroku-icon.svg
-  description: Deployed and scaled applications seamlessly, optimizing configurations for peak production performance.
-  projects:
+
 - name: Bootstrap
   image: /images/projects/stack/bootstrap-icon.svg
-  description: Quickly built polished, responsive layouts using Bootstrap components.
-  projects:
+
 - name: Postman
   image: /images/projects/stack/postman-icon.svg
-  description: Quickly built polished, responsive layouts using Bootstrap components.
-  projects:
+
 - name: Git
   image: /images/projects/stack/git-icon.svg
-  description: Quickly built polished, responsive layouts using Bootstrap components.
-  projects:
+
 - name: PostgreSQL
   image: /images/projects/stack/db-icon.svg
-  description: Quickly built polished, responsive layouts using Bootstrap components.
-  projects:
+
 - name: Figma
   image: /images/projects/stack/figma-icon.svg
-  description: Quickly built polished, responsive layouts using Bootstrap components.
-  projects:
-- name: Notion
-  image: /images/projects/stack/notion-icon.svg
-  description: Quickly built polished, responsive layouts using Bootstrap components.
-  projects:
+
+- name: Sass
+  image: /images/projects/stack/sass-icon.svg
+
 - name: Visual Studio Code
   image: /images/projects/stack/vscode-icon.svg
-  description: Quickly built polished, responsive layouts using Bootstrap components.
-  projects:
