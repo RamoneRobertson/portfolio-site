@@ -1,17 +1,31 @@
 .proj-wrapper {
   .bold-divider {
     font-weight: bolder;
-    color: black;
+    color: rgb(207, 28, 28);
     height: 6px;
     border-top: 10px solid $black;
   }
 
   .glassy-text {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: $black;
+    background-color: $black;
+    color: $white;
     line-height: 1.5;
     padding: 1rem 2rem;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    height: 100%;
+
+    h3 {
+      font-family: "Oswald";
+      color: $green;
+      font-size: 18px;
+    }
+
+    .proj-desc {
+      font-family: Manrope;
+      font-weight: 900;
+      font-size: 28px;
+    }
   }
 
   img {
@@ -32,7 +46,6 @@
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 8px;
     grid-row-gap: 8px;
-    width: 342px;
   }
 
   .skill-div {
@@ -47,6 +60,7 @@
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
       rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    font-family: "Roboto Condensed";
   }
 
   .skill-img {
@@ -64,14 +78,15 @@
 
   .proj-links {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 32px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
   }
 
   .proj-btn {
     padding: 16px 32px;
-    background: $black;
+    background: $green;
+    border-radius: 16px;
     text-decoration: none;
     width: 12em;
     margin: 16px;

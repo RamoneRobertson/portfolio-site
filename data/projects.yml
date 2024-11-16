@@ -1,5 +1,5 @@
 - name: Anime Panda
-  description: Find new anime to binge watch with a personalized AI anime curator, delivering tailored anime recommendations to suit your unique tastes.
+  description: Personalized AI anime curator, delivering tailored anime recommendations to suit your unique tastes.
   image: /images/projects/anime-mockup1.png
   video: /images/projects/AnimePandaDemo.mp4
   url: https://www.animepanda.me
@@ -16,6 +16,7 @@
   role: Full-Stack Developer
   role_desc: As the Full-Stack Developer for an AI-powered anime recommendation app, I built the swiping and recommendation interface, allowing users to interact with personalized anime suggestions from the OpenAI ChatGPT API. I led the front-end development and handled key back-end functionality, enabling real-time voting on recommended titles.
   online: true
+  status: Online
 # - name: Movie Watchlist
 #   description: Decent description of the app
 #   image: projects/placeholder.png
