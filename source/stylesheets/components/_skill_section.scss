@@ -27,13 +27,17 @@
   }
 }
 
-@media screen and (max-width: 320px) {
-  // .skill-name {
-  //   display: none;
-  // }
+@media screen and (max-width: 531px) {
+  .skill-grid {
+    gap: 8px;
+  }
+
+  .skill-cell {
+    padding: 8px;
+  }
 }
 
-@media screen and (max-width: 368px) {
+@media screen and (max-width: 448px) {
   .skill-grid {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
@@ -49,17 +53,8 @@
   }
 }
 
-@media screen and (max-width: 525px) {
-  .skill-grid {
-    gap: 8px;
-  }
-
-  .skill-cell {
-    padding: 8px;
-
-    img {
-      height: 72px;
-      width: 72px;
-    }
-  }
+@media screen and (max-width: 320px) {
+  // .skill-name {
+  //   display: none;
+  // }
 }
