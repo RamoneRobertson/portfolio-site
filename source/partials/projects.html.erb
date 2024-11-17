@@ -2,30 +2,21 @@
   <div class="skills-title">Projects</div>
   <hr>
   <% data.projects.each do |project| %>
-    <div class="proj-wrapper d-flex p-5 my-5">
-      <div class="col-6 fade-in-section">
-        <img src="<%= project.image %>" class="proj-img" alt="An image showing a demo of a anime mobile application">
-      </div>
-      <div class="col-6 proj-info">
-        <div class="glassy-text">
-          <h3 class="fade-in-section"><%= project.name %></h3>
-          <p class="my-3 fade-in-section proj-desc"><%= project.description %></p>
-          <div class="tech-stack my-3">
-            <% project["stack"].each_pair do |skill_name, img_url| %>
-              <div class="skill-div d-flex fade-in-section">
-                <img src="<%= img_url %>" class="skill-img" alt="#">
-                <p class="skill-name"><%= skill_name %></p>
-              </div>
-            <% end %>
-          </div>
-          <div class="proj-links">
-            <a href="<%= project.url %>" class="proj-btn fade-in-section">
-              <i class="fa-solid fa-link" style="color: #ffffff;"></i> View Project
-            </a>
-            <a href="<%= project.github %>" class="proj-btn  fade-in-section">
-              <i class="fa-brands fa-github" style="color: #ffffff;"></i> Github
-            </a>
-          </div>
+    <div class="project-card">
+      <img src="<%= project.image%>">
+      <div proj-info>
+        <h3><%=project.name%></h3>
+        <p><%= project.description %></p>
+        <div class="stack">
+          <% project.stack.each do |skill, img| %>
+            <div class="stack-cell">
+              <img src="<%=img%>" alt="">
+            </div>
+          <% end %>
+        </div>
+        <div class="proj-link">
+          <a href="<%= project.url%>">View</a>
+          <a href="<%= project.github%>">Github</a>
         </div>
       </div>
     </div>

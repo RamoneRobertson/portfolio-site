@@ -1,0 +1,14 @@
+.project-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 48px;
+  img {
+    max-height: 410px;
+  }
+}
+
+.stack {
+  display: grid;
+  grid-template-rows: 1fr;
+}
