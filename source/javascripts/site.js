@@ -1,14 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
+        entry.target.classList.add("show");
       } else {
-        entry.target.classList.remove('is-visible');
+        entry.target.classList.remove("show");
       }
     });
   });
 
-  const hiddenItems = document.querySelectorAll('.fade-in-section');
+  const hiddenItems = document.querySelectorAll(".fade-in-section");
   hiddenItems.forEach((el) => observer.observe(el));
 });
