@@ -8,7 +8,9 @@
 
 .hero {
   #first-name {
-    color: $green;
+    color: transparent;
+    background-image: linear-gradient(90deg, #11998e, #38ef7d);
+    background-clip: text;
   }
 
   .self-intro {

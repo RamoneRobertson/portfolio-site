@@ -4,7 +4,7 @@
   <% data.projects.each do |project| %>
     <div class="project-card fade-in-section">
       <img src="<%= project.image%>">
-      <div proj-info>
+      <div class="proj-info">
         <h3 class="project-name"><%=project.name%></h3>
         <p class="project-desc"><%= project.description %></p>
         <div class="stack">
@@ -16,8 +16,12 @@
           <% end %>
         </div>
         <div class="proj-links my-5">
-          <a class="proj-link" href="<%= project.url%>">View</a>
-          <a class="proj-link" href="<%= project.github%>">Github</a>
+          <div class="border-wrap">
+            <a class="proj-link" href="<%= project.url%>">View</a>
+          </div>
+          <div class="border-wrap">
+            <a class="proj-link" href="<%= project.github%>">Github</a>
+          </div>
         </div>
       </div>
     </div>

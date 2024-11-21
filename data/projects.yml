@@ -1,5 +1,5 @@
 - name: Anime Panda
-  description: Personalized AI anime curator, delivering tailored anime recommendations to suit your unique tastes.
+  description: A personalized AI anime curator, delivering tailored recommendations by syncing your MyAnimeList data, keeping track of what you like, and refining suggestions to match your individual preferences.
   image: /images/projects/anime-mockup1.png
   video: /images/projects/AnimePandaDemo.mp4
   url: https://www.animepanda.me
