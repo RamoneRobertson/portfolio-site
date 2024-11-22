@@ -3,7 +3,7 @@
   <hr>
   <% data.projects.each do |project| %>
     <div class="project-card fade-in-section">
-      <img src="<%= project.image%>">
+      <img class="proj-image" src="<%= project.image%>">
       <div class="proj-info">
         <h3 class="project-name"><%=project.name%></h3>
         <p class="project-desc"><%= project.description %></p>

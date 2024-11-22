@@ -76,6 +76,36 @@
   }
 }
 
-// .proj-link:hover {
-//   transform: scale(1.1);
-// }
+@media screen and (max-width: 415px) {
+  .project-info {
+    padding: 16px;
+    margin: 1rem;
+  }
+
+  .project-card {
+    padding: 4px;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .skill-name-stack {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .proj-image {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .proj-image {
+    display: none;
+  }
+
+  .proj-links {
+    justify-content: center;
+    align-items: center;
+  }
+}
