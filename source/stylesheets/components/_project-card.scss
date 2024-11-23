@@ -1,3 +1,7 @@
+#projects {
+  margin: 8px;
+}
+
 .project-card {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
