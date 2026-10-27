@@ -1,0 +1,49 @@
+---
+import { iconFor } from "../lib/icons";
+
+// Icon buttons for a project's live site and GitHub repo, each with a tooltip.
+// Either link is skipped when the project doesn't have it.
+interface Props { title: string; demo?: string; repo?: string; tone?: "light" | "dark" }
+const { title, demo, repo, tone = "light" } = Astro.props;
+
+const links = [
+  demo && { href: demo, tip: "Visit live site", label: `Visit the ${title} live site`, icon: iconFor("Live site")! },
+  repo && { href: repo, tip: "View GitHub repo", label: `View ${title} on GitHub`, icon: iconFor("GitHub")! }
+].filter(Boolean) as { href: string; tip: string; label: string; icon: { path: string; stroke?: boolean } }[];
+---
+{links.length > 0 && (
+  <div class:list={["project-links", tone]}>
+    {links.map((l) => (
+      <a href={l.href} target="_blank" rel="noopener noreferrer" data-tip={l.tip} aria-label={`${l.label} (opens in a new tab)`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"
+          fill={l.icon.stroke ? "none" : "currentColor"}
+          stroke={l.icon.stroke ? "currentColor" : undefined}
+          stroke-width={l.icon.stroke ? 1.8 : undefined}
+          stroke-linecap="round" stroke-linejoin="round"><path d={l.icon.path} /></svg>
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .project-links { position: relative; z-index: 1; display: flex; flex: none; gap: var(--s-2); }
+  a {
+    position: relative; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    transition: border-color 200ms var(--ease), color 200ms var(--ease);
+  }
+  .dark a { border-color: var(--panel-line); background: var(--panel-2); color: var(--panel-ink); }
+  svg { width: 18px; height: 18px; }
+  a:hover, a:focus-visible { border-color: var(--accent); color: var(--accent-text); }
+  .dark a:hover, .dark a:focus-visible { color: var(--accent); }
+  /* Tooltip above the icon on hover or keyboard focus. */
+  a::after {
+    content: attr(data-tip); position: absolute; right: 0; bottom: calc(100% + 8px);
+    padding: 6px 10px; border-radius: var(--r-sm); white-space: nowrap; pointer-events: none;
+    font-family: var(--mono); font-size: 12px; line-height: 1;
+    background: var(--ink); color: var(--bg);
+    opacity: 0; transform: translateY(4px); transition: opacity 150ms var(--ease), transform 150ms var(--ease);
+  }
+  .dark a::after { background: var(--panel-ink); color: var(--panel); }
+  a:hover::after, a:focus-visible::after { opacity: 1; transform: none; }
+</style>

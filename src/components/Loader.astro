@@ -1,0 +1,130 @@
+---
+import { site } from "../data/site";
+import { iconFor } from "../lib/icons";
+
+// Every skill that has an icon. They pop into a grid in random order while a page loads.
+const tools = site.skills.flatMap((g) => g.items).flatMap((name) => {
+  const icon = iconFor(name);
+  return icon ? [{ name, icon }] : [];
+});
+---
+<div class="loader" aria-hidden="true">
+  <ul class="grid">
+    {tools.map((t) => (
+      <li>
+        <svg class="tool" data-name={t.name} viewBox="0 0 24 24"
+          fill={t.icon.stroke ? "none" : "currentColor"}
+          stroke={t.icon.stroke ? "currentColor" : undefined}
+          stroke-width={t.icon.stroke ? 1.6 : undefined}
+          stroke-linecap="round" stroke-linejoin="round"><path d={t.icon.path} /></svg>
+      </li>
+    ))}
+  </ul>
+  <p class="name">&nbsp;</p>
+  <span class="bar"><span /></span>
+</div>
+
+<script is:inline>
+  // Runs before the rest of the page renders. Reveals the icons one at a time
+  // in a random order until the page has loaded, then fades the loader out.
+  (function () {
+    var root = document.documentElement;
+    var loader = document.currentScript.previousElementSibling;
+    var icons = Array.prototype.slice.call(loader.querySelectorAll(".tool"));
+    var label = loader.querySelector(".name");
+    var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var STEP = 45; // ms between icons: the full grid fills in about a second
+    var MIN = reduced ? 200 : icons.length * STEP + 250; // let the grid finish, then hold a beat
+    var start = Date.now();
+    var timer = 0;
+
+    var reveal = function () {
+      clearInterval(timer);
+      icons.forEach(function (el) { el.classList.remove("on"); });
+      if (reduced) {
+        icons.forEach(function (el) { el.classList.add("on"); });
+        return;
+      }
+      // Fisher–Yates shuffle, so the order is different on every load.
+      var order = icons.slice();
+      for (var j = order.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var tmp = order[j]; order[j] = order[k]; order[k] = tmp;
+      }
+      var n = 0;
+      timer = setInterval(function () {
+        if (n >= order.length) return clearInterval(timer);
+        order[n].classList.add("on");
+        label.textContent = order[n].getAttribute("data-name");
+        n++;
+      }, STEP);
+    };
+    reveal();
+
+    var done = function () {
+      setTimeout(function () { root.classList.add("loaded"); }, Math.max(0, MIN - (Date.now() - start)));
+    };
+    if (document.readyState === "complete") done();
+    else window.addEventListener("load", done, { once: true });
+    setTimeout(done, 4000); // never hold the page longer than this
+
+    // Coming back with the back button restores the page as it was: no loader.
+    window.addEventListener("pageshow", function (e) {
+      if (e.persisted) root.classList.add("loaded");
+    });
+
+    // Switching pages: fade in an empty grid, then navigate. The next page fills it.
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (a.target && a.target !== "_self") return;
+      if (a.hasAttribute("download") || a.hasAttribute("data-lightbox")) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || url.pathname === location.pathname) return;
+      e.preventDefault();
+      clearInterval(timer);
+      icons.forEach(function (el) { el.classList.remove("on"); });
+      label.innerHTML = "&nbsp;";
+      root.classList.remove("loaded");
+      setTimeout(function () { location.href = url.href; }, reduced ? 0 : 250);
+    });
+  })();
+</script>
+
+<style>
+  .loader { display: none; }
+  :global(.js) .loader {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-6);
+    padding: var(--s-4); background: var(--bg);
+    transition: opacity 400ms var(--ease), visibility 400ms;
+  }
+  :global(.js.loaded) .loader { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  /* Six tiles a row (five on small phones), with the last row centered. */
+  .grid { --tile: 48px; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-2); width: calc(var(--tile) * 6 + var(--s-2) * 5); }
+  @media (max-width: 400px) { .grid { --tile: 44px; width: calc(var(--tile) * 5 + var(--s-2) * 4); } }
+  .grid li {
+    width: var(--tile); height: var(--tile); display: grid; place-items: center;
+    border-radius: 14px; background: var(--accent-soft); color: var(--accent-text);
+  }
+  .tool {
+    width: 22px; height: 22px;
+    opacity: 0; transform: scale(0.7) translateY(6px); filter: blur(4px);
+    transition: opacity 180ms var(--ease), transform 260ms var(--ease), filter 180ms var(--ease);
+  }
+  .tool:global(.on) { opacity: 1; transform: none; filter: none; }
+
+  .name { font-family: var(--mono); font-size: var(--t-xs); color: var(--muted); letter-spacing: 0.02em; }
+
+  .bar { position: relative; width: 120px; height: 2px; border-radius: 2px; overflow: hidden; background: var(--line); }
+  .bar span { position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js:not(.loaded)) .bar span { animation: load 1250ms var(--ease) forwards; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tool { transition: none; }
+    .bar { display: none; }
+  }
+  @keyframes load { to { transform: scaleX(1); } }
+</style>

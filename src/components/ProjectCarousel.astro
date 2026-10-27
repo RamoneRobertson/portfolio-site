@@ -1,0 +1,250 @@
+---
+import { getCollection } from "astro:content";
+import ProjectLinks from "./ProjectLinks.astro";
+
+// Featured projects, in site order.
+const projects = (await getCollection("projects", (p) => p.data.published && p.data.featured))
+  .sort((a, b) => a.data.order - b.data.order);
+const total = projects.length;
+
+// Placeholder until a demo exists: the first box of each architecture column.
+const sketch = (diagram: string[][]) => diagram.slice(0, 5).map((col) => col[0].split("|")[0].trim());
+---
+<div class="carousel" data-carousel role="region" aria-roledescription="carousel" aria-label="Featured projects">
+  <div class="track" data-track tabindex="0">
+    {projects.map((p, i) => (
+      <article class:list={["slide", { active: i === 0 }]} data-slide aria-roledescription="slide" aria-label={`${i + 1} of ${total}: ${p.data.title}`}>
+        <a class="media" href={`/projects/${p.id}/`} tabindex="-1" aria-hidden={p.data.video || p.data.image ? undefined : "true"}>
+          {p.data.video ? (
+            <video src={p.data.video} poster={p.data.image} muted loop playsinline preload={i === 0 ? "metadata" : "none"} aria-label={p.data.imageAlt ?? `${p.data.title} demo`} />
+          ) : p.data.image ? (
+            <img src={p.data.image} alt={p.data.imageAlt ?? `${p.data.title} screenshot`} loading={i === 0 ? "eager" : "lazy"} />
+          ) : (
+            <div class="sketch">
+              {sketch(p.data.diagram).map((name, j, arr) => (
+                <>
+                  <span class:list={["node", { core: j === Math.floor((arr.length - 1) / 2) }]} style={`--i:${j}`}>{name}</span>
+                  {j < arr.length - 1 && <span class="wire" style={`--i:${j}`} />}
+                </>
+              ))}
+            </div>
+          )}
+        </a>
+        <p class="kicker"><span class="num">{String(i + 1).padStart(2, "0")}</span>{p.data.domain}{p.data.status === "in-progress" && <span class="status">In progress</span>}</p>
+        <div class="title-row">
+          <h3><a href={`/projects/${p.id}/`}>{p.data.title}</a></h3>
+          <ProjectLinks title={p.data.title} demo={p.data.demo} repo={p.data.repo} />
+        </div>
+        {p.data.metrics[0] ? (
+          <p class="metric"><strong>{p.data.metrics[0].value}</strong> {p.data.metrics[0].label}</p>
+        ) : (
+          <p class="metric">{p.data.tagline}</p>
+        )}
+        <ul class="tech" aria-label="Built with">
+          {p.data.stack.slice(0, 6).map((s, j) => <li style={`--i:${j}`}>{s}</li>)}
+        </ul>
+      </article>
+    ))}
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" type="button" data-prev aria-label="Previous project">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>
+    </button>
+    <div class="dots" role="group" aria-label="Choose project">
+      {projects.map((p, i) => (
+        <button class:list={["dot", { active: i === 0 }]} type="button" data-dot={i} aria-label={`Show ${p.data.title}`} aria-current={i === 0 ? "true" : undefined}>
+          <span class="fill" />
+        </button>
+      ))}
+    </div>
+    <button class="nav-btn" type="button" data-next aria-label="Next project">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .carousel { --dwell: 5s; display: grid; gap: var(--s-4); }
+
+  /* Native horizontal scroll with snapping: swipe on touch, shift-scroll or arrows on desktop. */
+  .track {
+    display: flex; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    scrollbar-width: none; border-radius: var(--r-md);
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .slide {
+    flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
+    display: flex; flex-direction: column; gap: var(--s-2);
+    padding: var(--s-1) var(--s-1) var(--s-2);
+  }
+  .media {
+    display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 10; margin-bottom: var(--s-3);
+    border-radius: var(--r-md); background: var(--panel); border: 1px solid var(--line);
+  }
+  .media video, .media img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Architecture sketch placeholder */
+  .sketch {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+    background-image: radial-gradient(var(--panel-line) 1px, transparent 1px); background-size: 14px 14px;
+  }
+  .sketch .node {
+    font-family: var(--mono); font-size: 11px; line-height: 1; white-space: nowrap;
+    padding: 6px 10px; border-radius: var(--r-pill);
+    background: var(--panel-2); color: var(--panel-muted); border: 1px solid var(--panel-line);
+  }
+  .sketch .node.core { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .sketch .wire { width: 1px; height: 10px; background: var(--panel-line); }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .sketch .node, :global(.js) .sketch .wire { opacity: 0; transform: translateY(6px); transition: opacity 400ms var(--ease), transform 400ms var(--ease); transition-delay: calc(var(--i) * 80ms); }
+    :global(.js) .slide.active .sketch .node, :global(.js) .slide.active .sketch .wire { opacity: 1; transform: none; }
+  }
+
+  .kicker { display: flex; align-items: center; gap: var(--s-2); font-family: var(--mono); font-size: var(--t-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
+  .num { color: var(--accent-text); }
+  .title-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+  h3 { font-size: var(--t-lg); line-height: 1.15; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+  .metric { font-size: var(--t-sm); color: var(--muted); }
+  .metric strong { font-weight: 400; color: var(--ink); }
+
+  .tech { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--s-2); }
+  .tech li {
+    font-family: var(--mono); font-size: 12px; line-height: 1;
+    padding: 6px 9px; border-radius: var(--r-pill);
+    background: var(--accent-soft); color: var(--accent-text);
+  }
+  /* Tech chips rise in one after another when their slide becomes active. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .tech li {
+      opacity: 0; transform: translateY(10px) scale(0.92); filter: blur(4px);
+      transition: opacity 500ms var(--ease), transform 500ms var(--ease), filter 500ms var(--ease);
+      transition-delay: calc(var(--i) * 70ms + 120ms);
+    }
+    :global(.js) .slide.active .tech li { opacity: 1; transform: none; filter: none; }
+    :global(.js) .slide .title-row, :global(.js) .slide .metric { transition: opacity 400ms var(--ease), transform 400ms var(--ease); }
+    :global(.js) .slide:not(.active) .title-row, :global(.js) .slide:not(.active) .metric { opacity: 0; transform: translateY(6px); }
+  }
+
+  .controls { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+  .nav-btn {
+    display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer;
+    transition: border-color 200ms var(--ease), transform 200ms var(--ease);
+  }
+  .nav-btn:hover { border-color: var(--accent); }
+  .nav-btn:active { transform: scale(0.94); }
+  .nav-btn svg { width: 14px; height: 14px; }
+
+  .dots { display: flex; gap: 6px; }
+  .dot {
+    position: relative; overflow: hidden; width: 8px; height: 8px; padding: 0;
+    border: 0; border-radius: var(--r-pill); background: var(--line); cursor: pointer;
+    transition: width 400ms var(--ease), background-color 200ms var(--ease);
+  }
+  .dot:hover { background: var(--muted); }
+  .dot.active { width: 28px; background: var(--line); }
+  .fill { position: absolute; inset: 0; border-radius: inherit; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+  .dot.active .fill { transform: scaleX(1); }
+  /* While autoplay runs, the active dot fills up over the dwell time. */
+  @media (prefers-reduced-motion: no-preference) {
+    .carousel.playing .dot.active .fill { animation: fill var(--dwell) linear forwards; }
+    .carousel.paused .dot.active .fill { animation-play-state: paused; }
+  }
+  @keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+</style>
+
+<script>
+  const DWELL = 5000;
+
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>("[data-track]")!;
+    const slides = [...root.querySelectorAll<HTMLElement>("[data-slide]")];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-dot]")];
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let index = 0;
+    let timer: number | undefined;
+    let hovering = false;
+    let visible = true;
+
+    const videos = slides.map((s) => s.querySelector("video"));
+
+    const setActive = (i: number) => {
+      index = i;
+      videos.forEach((v, j) => {
+        if (!v) return;
+        if (j === i && !reduced) { v.preload = "auto"; v.play().catch(() => {}); }
+        else v.pause();
+      });
+      slides.forEach((s, j) => s.classList.toggle("active", j === i));
+      dots.forEach((d, j) => {
+        d.classList.toggle("active", j === i);
+        if (j === i) d.setAttribute("aria-current", "true");
+        else d.removeAttribute("aria-current");
+      });
+      restart();
+    };
+
+    const go = (i: number) => {
+      const n = (i + slides.length) % slides.length;
+      track.scrollTo({ left: slides[n].offsetLeft - track.offsetLeft, behavior: reduced ? "auto" : "smooth" });
+    };
+
+    // The slide that is mostly in view is the active one, however it got there.
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            const i = slides.indexOf(e.target as HTMLElement);
+            if (i !== index) setActive(i);
+          }
+        }
+      },
+      { root: track, threshold: 0.6 }
+    );
+    slides.forEach((s) => io.observe(s));
+
+    // Autoplay: advances every DWELL ms, pauses on hover, focus, or when off-screen.
+    const canPlay = () => !reduced && !hovering && visible && !document.hidden;
+    function restart() {
+      clearTimeout(timer);
+      root.classList.remove("playing");
+      if (!canPlay()) { root.classList.add("paused"); return; }
+      root.classList.remove("paused");
+      void root.offsetWidth; // restart the dot fill animation
+      root.classList.add("playing");
+      // A demo video stays up for its full length (5 to 20 s); other slides get DWELL.
+      const v = videos[index];
+      const dwell = v && v.duration ? Math.min(Math.max(v.duration * 1000, DWELL), 20000) : DWELL;
+      root.style.setProperty("--dwell", `${dwell}ms`);
+      timer = window.setTimeout(() => go(index + 1), dwell);
+    }
+
+    root.querySelector("[data-prev]")!.addEventListener("click", () => go(index - 1));
+    root.querySelector("[data-next]")!.addEventListener("click", () => go(index + 1));
+    dots.forEach((d, i) => d.addEventListener("click", () => go(i)));
+    track.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); }
+    });
+
+    const pause = () => { hovering = true; restart(); };
+    const resume = () => { hovering = false; restart(); };
+    root.addEventListener("mouseenter", pause);
+    root.addEventListener("mouseleave", resume);
+    root.addEventListener("focusin", pause);
+    root.addEventListener("focusout", (e) => { if (!root.contains(e.relatedTarget as Node)) resume(); });
+    track.addEventListener("touchstart", pause, { passive: true });
+
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; restart(); }).observe(root);
+    document.addEventListener("visibilitychange", restart);
+
+    // Once a video's length is known, re-time its slide.
+    videos.forEach((v, j) => v?.addEventListener("loadedmetadata", () => { if (index === j) restart(); }));
+    if (!reduced) videos[0]?.play().catch(() => {});
+    restart();
+  });
+</script>

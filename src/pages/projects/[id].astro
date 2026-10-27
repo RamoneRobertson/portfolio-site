@@ -1,0 +1,113 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Diagram from "../../components/Diagram.astro";
+
+export async function getStaticPaths() {
+  const all = (await getCollection("projects", (p) => p.data.published)).sort((a, b) => a.data.order - b.data.order);
+  return all.map((entry, i) => ({
+    params: { id: entry.id },
+    props: { entry, next: all[(i + 1) % all.length] }
+  }));
+}
+
+const { entry, next } = Astro.props;
+const p = entry.data;
+const { Content } = await render(entry);
+---
+<Base title={p.title} description={`${p.tagline} ${p.summary}`}>
+  <article class="wrap case">
+    <a class="back" href="/#projects"><span aria-hidden="true">←</span> All projects</a>
+
+    <header class="head">
+      <p class="kicker"><span>{p.domain}</span><span>{p.context}</span>{p.status === "in-progress" && <span class="status">In progress</span>}</p>
+      <h1>{p.title}</h1>
+      <p class="tagline">{p.tagline}</p>
+      <p class="summary">{p.summary}</p>
+      <div class="actions">
+        {p.repo && <a class="btn primary" href={p.repo} target="_blank" rel="noopener noreferrer">View code</a>}
+        {p.demo && <a class="btn" href={p.demo} target="_blank" rel="noopener noreferrer">Live site</a>}
+      </div>
+    </header>
+
+    {p.video ? (
+      <video class="shot" src={p.video} poster={p.image} controls muted loop playsinline preload="metadata" aria-label={p.imageAlt ?? `${p.title} demo`} />
+    ) : p.image && (
+      <img class="shot" src={p.image} alt={p.imageAlt ?? `${p.title} screenshot`} />
+    )}
+
+    {p.metrics.length > 0 && (
+      <ul class="metrics">
+        {p.metrics.map((m) => <li><strong>{m.value}</strong><span>{m.label}</span></li>)}
+      </ul>
+    )}
+
+    {p.diagram.length > 0 && (
+      <section class="arch" aria-labelledby="arch-title">
+        <h2 id="arch-title" class="eyebrow">Architecture</h2>
+        <Diagram columns={p.diagram} label={`${p.title} architecture`} />
+      </section>
+    )}
+
+    <div class="body">
+      <aside class="side">
+        <h2 class="eyebrow">Built with</h2>
+        <ul class="chips">{p.stack.map((s) => <li>{s}</li>)}</ul>
+      </aside>
+      <div class="prose"><Content /></div>
+    </div>
+
+    {next.id !== entry.id && (
+      <a class="next" href={`/projects/${next.id}/`}>
+        <span class="eyebrow">Next project</span>
+        <span class="next-title">{next.data.title} <span aria-hidden="true">→</span></span>
+        <span class="muted">{next.data.tagline}</span>
+      </a>
+    )}
+  </article>
+</Base>
+
+<style>
+  .case { padding-top: var(--s-10); padding-bottom: var(--s-20); }
+  .back { display: inline-flex; gap: var(--s-2); font-size: var(--t-sm); color: var(--muted); text-decoration: none; }
+  .back:hover { color: var(--ink); }
+  .head { margin-top: var(--s-10); max-width: 46rem; }
+  .kicker { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); font-family: var(--mono); font-size: var(--t-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
+  h1 { margin-top: var(--s-4); font-size: clamp(2.25rem, 1.5rem + 3vw, 3.5rem); letter-spacing: -0.01em; line-height: 1.05; }
+  .tagline { margin-top: var(--s-4); font-size: var(--t-lg); font-weight: 400; letter-spacing: -0.01em; }
+  .summary { margin-top: var(--s-4); color: var(--ink-2); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-8); }
+
+  .shot { display: block; width: 100%; height: auto; margin-top: var(--s-12); border-radius: var(--r-lg); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .metrics { list-style: none; display: grid; gap: var(--s-4); margin-top: var(--s-12); grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+  .metrics li { display: grid; gap: var(--s-1); padding: var(--s-5); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); }
+  .metrics strong { font-size: var(--t-xl); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
+  .metrics span { font-size: var(--t-sm); color: var(--muted); }
+
+  .arch { margin-top: var(--s-12); display: grid; gap: var(--s-4); }
+
+  .body { display: grid; gap: var(--s-10); margin-top: var(--s-16); }
+  @media (min-width: 960px) { .body { grid-template-columns: 14rem 1fr; gap: var(--s-16); } }
+  .side { display: grid; gap: var(--s-3); align-content: start; }
+  @media (min-width: 960px) { .side { position: sticky; top: 96px; } }
+
+  .prose { max-width: 42rem; color: var(--ink-2); }
+  .prose :global(h2) { font-size: var(--t-lg); color: var(--ink); margin: var(--s-10) 0 var(--s-3); }
+  .prose :global(h2:first-child) { margin-top: 0; }
+  .prose :global(p) { margin-bottom: var(--s-4); }
+  .prose :global(ul) { display: grid; gap: var(--s-3); padding-left: var(--s-5); margin-bottom: var(--s-4); }
+  .prose :global(li::marker) { color: var(--muted); }
+  .prose :global(strong) { color: var(--ink); font-weight: 400; }
+  .prose :global(table) { width: 100%; border-collapse: collapse; margin-bottom: var(--s-4); font-size: var(--t-sm); }
+  .prose :global(th), .prose :global(td) { text-align: left; padding: var(--s-2) var(--s-3) var(--s-2) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .prose :global(th) { color: var(--muted); font-weight: 400; }
+  .prose :global(code) { font-family: var(--mono); font-size: 0.85em; padding: 2px 6px; border-radius: 6px; background: var(--chip); color: var(--ink); }
+
+  .next {
+    display: grid; gap: var(--s-2); margin-top: var(--s-20); padding: var(--s-8);
+    border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); text-decoration: none;
+    transition: border-color 200ms var(--ease);
+  }
+  .next:hover { border-color: var(--muted); }
+  .next-title { font-size: var(--t-lg); font-weight: 400; letter-spacing: -0.01em; }
+</style>
