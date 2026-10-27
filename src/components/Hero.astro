@@ -1,11 +1,31 @@
 ---
 import { site } from "../data/site";
 import ProjectCarousel from "./ProjectCarousel.astro";
+import { iconFor } from "../lib/icons";
 ---
 <section class="hero" aria-labelledby="hero-name">
   <div class="glow" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-text">
+      <ul class="certs" aria-label="Certifications">
+        {site.certs.map((c) => {
+          const icon = iconFor(c.icon)!;
+          return (
+            <li>
+              <a class="cert" href={c.url} target="_blank" rel="noopener noreferrer" aria-label={`${c.issuer} ${c.name}: view badge (opens in a new tab)`}>
+                <span class="cert-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"
+                    fill={icon.stroke ? "none" : "currentColor"}
+                    stroke={icon.stroke ? "currentColor" : undefined}
+                    stroke-width={icon.stroke ? 1.8 : undefined}
+                    stroke-linecap="round" stroke-linejoin="round"><path d={icon.path} /></svg>
+                </span>
+                <span class="cert-text"><span class="issuer">{c.issuer}</span><span class="cert-name">{c.name}</span></span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
       <p class="badge"><span class="dot" aria-hidden="true"></span>{site.availability}</p>
       <h1 id="hero-name">{site.name}</h1>
       <p class="role">{site.role} <span class="sep" aria-hidden="true">·</span> <span class="loc muted">{site.location}</span></p>
@@ -54,6 +74,19 @@ import ProjectCarousel from "./ProjectCarousel.astro";
   }
   .hero-grid { display: grid; gap: var(--s-10); align-items: center; }
   @media (min-width: 960px) { .hero-grid { grid-template-columns: 1fr 360px; gap: var(--s-16); } }
+
+  .certs { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-4); }
+  .cert {
+    display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px;
+    border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--surface);
+    text-decoration: none; transition: border-color 200ms var(--ease), transform 200ms var(--ease);
+  }
+  .cert:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .cert-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-text); }
+  .cert-icon svg { width: 18px; height: 18px; }
+  .cert-text { display: grid; line-height: 1.15; }
+  .issuer { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent-text); }
+  .cert-name { font-size: var(--t-xs); color: var(--ink); }
 
   .badge {
     display: inline-flex; align-items: center; gap: var(--s-2);

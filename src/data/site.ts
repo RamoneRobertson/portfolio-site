@@ -13,6 +13,12 @@ export const site = {
   role: "Backend Engineer",
   location: "Oklahoma City, OK",
   availability: "Open to backend engineering roles",
+  // Shown above the availability badge in the hero. Icons come from src/lib/icons.ts.
+  // TODO: replace the Credly links with the real badge URLs once both exams are passed.
+  certs: [
+    { issuer: "AWS Certified", name: "Solutions Architect – Associate", icon: "AWS", url: "https://www.credly.com/" },
+    { issuer: "Linux Foundation", name: "Certified Kubernetes Administrator", icon: "Kubernetes", url: "https://www.credly.com/" }
+  ],
   email: "ramoneqr7@gmail.com",
   github: "https://github.com/RamoneRobertson",
   linkedin: "https://www.linkedin.com/in/ramone-robertson/",
@@ -35,8 +41,7 @@ export const site = {
     facts: [
       { label: "Based in", value: "Oklahoma City, OK" },
       { label: "Looking for", value: "Backend Engineer" },
-      { label: "Certified", value: "AWS Solutions Architect – Associate" },
-      { label: "Studying for", value: "CKA (Certified Kubernetes Administrator)" },
+      { label: "Certified", value: "AWS Solutions Architect – Associate, Certified Kubernetes Administrator (CKA)" },
       { label: "Languages", value: "English, Japanese (N4)" }
     ],
     // A short personal section under the bio. Every photo needs alt text.
@@ -153,7 +158,7 @@ export const site = {
           dates: "Jan 2026 – Present · Oklahoma City",
           points: [
             "Came home to help care for my grandmother. The flexible schedule gave me room to go deep on backend engineering.",
-            "Built the projects on this site and earned the **AWS Solutions Architect – Associate** certification. Now looking for my next full-time backend role."
+            "Built the projects on this site and earned the **AWS Solutions Architect – Associate** and **Certified Kubernetes Administrator (CKA)** certifications. Now looking for my next full-time backend role."
           ]
         }
       ]
