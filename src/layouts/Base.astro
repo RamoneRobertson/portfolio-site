@@ -48,6 +48,10 @@ const person = {
   <script is:inline>
     // Apply the saved theme before first paint to avoid a flash.
     document.documentElement.classList.add("js");
+    // The loading screen only plays on the first page of a visit.
+    try {
+      if (sessionStorage.getItem("loader-seen")) document.documentElement.classList.add("loaded");
+    } catch (e) {}
     try {
       var t = localStorage.getItem("theme");
       if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
