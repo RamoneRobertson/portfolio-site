@@ -1,0 +1,42 @@
+---
+import { site } from "../data/site";
+---
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="cta" data-reveal>
+      <p class="eyebrow">05 · Contact</p>
+      <h2 id="contact-title">Hiring a backend engineer?</h2>
+      <p class="lede">I'm based in Oklahoma City and available now. Email is the fastest way to reach me, and I usually reply within a day.</p>
+      <div class="email">
+        <a class="btn primary" href={`mailto:${site.email}`}>{site.email}</a>
+        <button class="btn" type="button" data-copy={site.email}>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+          <span data-label>Copy email</span>
+        </button>
+      </div>
+      <p class="elsewhere">
+        <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative; overflow: hidden; text-align: center;
+    padding: var(--s-16) var(--s-6); border-radius: var(--r-lg);
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .cta::before {
+    content: ""; position: absolute; inset: auto 10% -60% 10%; height: 100%; z-index: 0;
+    background: radial-gradient(closest-side, var(--glow), transparent);
+  }
+  .cta > * { position: relative; }
+  h2 { margin-top: var(--s-4); font-size: var(--t-xl); }
+  .lede { margin: var(--s-4) auto 0; max-width: 32rem; color: var(--muted); }
+  .email { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-3); margin-top: var(--s-8); }
+  .elsewhere { display: flex; justify-content: center; gap: var(--s-6); margin-top: var(--s-6); font-size: var(--t-sm); }
+  .elsewhere a { color: var(--muted); text-decoration: none; transition: color 200ms var(--ease); }
+  .elsewhere a:hover { color: var(--ink); }
+</style>

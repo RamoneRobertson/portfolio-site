@@ -1,0 +1,44 @@
+---
+import { site } from "../data/site";
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p>© {year} {site.name}</p>
+    <p class="muted">
+      Hosted on AWS S3 + CloudFront, deployed by Terraform and GitHub Actions.
+      <span class="visits" id="visits" hidden>
+        <span class="live-dot" aria-hidden="true"></span>
+        <span id="visits-n"></span> visits, counted live by Lambda + DynamoDB
+      </span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .foot { border-top: 1px solid var(--line); padding-block: var(--s-8); font-size: var(--t-sm); }
+  .foot-in { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-3) var(--s-8); }
+  .visits { display: inline-flex; align-items: center; gap: var(--s-2); margin-left: var(--s-2); }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+</style>
+
+<script define:vars={{ api: site.visitorApi }}>
+  // Count each browser session once, then show the total. Stays hidden if the API is unreachable.
+  (async function () {
+    try {
+      var counted = false;
+      try { counted = sessionStorage.getItem("counted") === "1"; } catch (e) {}
+      if (!counted) {
+        await fetch(api, { method: "POST" });
+        try { sessionStorage.setItem("counted", "1"); } catch (e) {}
+      }
+      var res = await fetch(api);
+      if (!res.ok) return;
+      var text = JSON.stringify(await res.json());
+      var m = text.match(/\d+/);
+      if (!m) return;
+      document.getElementById("visits-n").textContent = Number(m[0]).toLocaleString();
+      document.getElementById("visits").hidden = false;
+    } catch (e) {}
+  })();
+</script>

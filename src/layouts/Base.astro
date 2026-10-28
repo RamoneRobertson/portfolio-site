@@ -1,0 +1,116 @@
+---
+import "@fontsource/abel";
+import "@fontsource-variable/geist-mono";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Loader from "../components/Loader.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(site.photo, Astro.site);
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  jobTitle: site.role,
+  url: Astro.site?.toString(),
+  email: `mailto:${site.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Oklahoma City", addressRegion: "OK", addressCountry: "US" },
+  sameAs: [site.github, site.linkedin]
+};
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <!-- Hold the first paint until <main> is parsed, so a page transition can find the project titles. -->
+  <link rel="expect" href="#main-end" blocking="render" />
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary" />
+  <script type="application/ld+json" set:html={JSON.stringify(person)} />
+  <!-- Opt in to page transitions. This has to come before the inline script below:
+       Chrome settles the opt-in when that script runs, before site CSS has loaded. -->
+  <style is:inline>
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+  </style>
+  <script is:inline>
+    // Apply the saved theme before first paint to avoid a flash.
+    document.documentElement.classList.add("js");
+    // Page transitions: the home page shows each project title more than once,
+    // so only the one involved in the navigation gets the shared name.
+    (function () {
+      var root = document.documentElement;
+      var name = function (el) { if (el) el.style.viewTransitionName = "project-title"; };
+      var inView = function (el) { var r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; };
+      // Leaving: the title of the project that was clicked.
+      document.addEventListener("click", function (e) {
+        var a = e.target.closest && e.target.closest("a[href^='/projects/']");
+        var box = a && a.closest("article");
+        name(box && box.querySelector("[data-project-title]"));
+      });
+      // Arriving back from a case study: the visible title of that project.
+      addEventListener("pagereveal", function (e) {
+        // Jump straight to a #section link's target. Smooth scrolling would start
+        // at the top and leave the transition morphing toward an off-screen title.
+        var target = location.hash && document.getElementById(location.hash.slice(1));
+        if (target) {
+          root.style.scrollBehavior = "auto";
+          target.scrollIntoView();
+          root.style.scrollBehavior = "";
+        }
+        if (!e.viewTransition || !window.navigation || !navigation.activation || !navigation.activation.from) return;
+        var m = new URL(navigation.activation.from.url).pathname.match(/^\/projects\/([^/]+)\/$/);
+        if (!m) return;
+        var sel = '[data-project-title="' + m[1] + '"]';
+        var els = document.querySelectorAll(sel);
+        for (var i = 0; i < els.length; i++) if (inView(els[i])) return name(els[i]);
+      });
+      // Clear names left on a page restored from the back/forward cache.
+      addEventListener("pageshow", function (e) {
+        if (e.persisted) document.querySelectorAll("[data-project-title]").forEach(function (el) { el.style.viewTransitionName = ""; });
+      });
+    })();
+    // The loading screen only plays on the first page of a visit.
+    try {
+      if (sessionStorage.getItem("loader-seen")) document.documentElement.classList.add("loaded");
+    } catch (e) {}
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <Loader />
+  <a class="skip" href="#main">Skip to content</a>
+  <Header />
+  <main id="main">
+    <slot />
+    <span id="main-end" hidden></span>
+  </main>
+  <Footer />
+  <script>
+    import "../scripts/site.ts";
+  </script>
+</body>
+</html>

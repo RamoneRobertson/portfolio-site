@@ -1,0 +1,182 @@
+---
+import { site } from "../data/site";
+import { emphasize, splitStat } from "../lib/text";
+const b = site.boeing;
+---
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">02 · Experience</p>
+      <h2 id="experience-title">Production systems where failure wasn't an option.</h2>
+    </header>
+
+    <article class="job" data-reveal>
+      <div class="job-head">
+        <div>
+          <h3>{b.title}, {b.company}</h3>
+          <p class="muted">{b.dates} · {b.place}</p>
+        </div>
+        <p class="job-intro">{b.intro}</p>
+      </div>
+      <ul class="highlights" data-countup>
+        {b.highlights.map((h) => {
+          const stat = splitStat(h.value);
+          return (
+            <li>
+              <strong>
+                <span class="sr-only">{h.value}</span>
+                <span aria-hidden="true" data-count={stat?.n} data-suffix={stat?.suffix}>{h.value}</span>
+              </strong>
+              <span>{h.label}</span>
+            </li>
+          );
+        })}
+      </ul>
+      <div class="groups">
+        {b.groups.map((g) => (
+          <div class="group">
+            <h4>{g.title}</h4>
+            <ul>{g.points.map((p) => <li set:html={emphasize(p)} />)}</ul>
+          </div>
+        ))}
+      </div>
+    </article>
+
+    <div class="timeline" data-reveal>
+      <h3 class="tl-title">Timeline</h3>
+      <ol>
+        {site.timeline.map((t) => (
+          <li>
+            <p class="tl-dates mono">{t.dates}</p>
+            <div class="tl-body">
+              <p class="tl-role"><strong>{t.title}</strong> <span class="muted">· {t.org}</span></p>
+              <p class="tl-detail">{t.detail}</p>
+              {t.parts.length > 0 && (
+                <div class="tl-parts">
+                  {t.parts.map((part) => (
+                    <div class="tl-part">
+                      <p class="tl-part-head">{part.label} <span class="mono muted">{part.dates}</span></p>
+                      <ul>{part.points.map((pt) => <li set:html={emphasize(pt)} />)}</ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .job { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--s-6); }
+  @media (min-width: 720px) { .job { padding: var(--s-10); } }
+  .job-head { display: grid; gap: var(--s-4); }
+  @media (min-width: 960px) { .job-head { grid-template-columns: 1fr 1.4fr; gap: var(--s-12); } }
+  .job-head h3 { font-size: var(--t-lg); }
+  .job-head .muted { margin-top: var(--s-1); font-size: var(--t-sm); }
+  .job-intro { color: var(--ink-2); }
+
+  .highlights { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4); margin-block: var(--s-8); }
+  @media (min-width: 820px) { .highlights { grid-template-columns: repeat(4, 1fr); } }
+  .highlights li { position: relative; overflow: hidden; display: grid; gap: 2px; padding: var(--s-4); background: var(--bg); border-radius: var(--r-md); }
+  .highlights strong { font-size: var(--t-xl); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .highlights span { font-size: var(--t-sm); color: var(--muted); }
+  .highlights strong span { font-size: inherit; color: inherit; }
+  /* A thin accent line fills along the bottom of each stat while it counts up. */
+  .highlights li::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+    background: var(--accent); transform-origin: left; transform: scaleX(1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .js .highlights li::after { transform: scaleX(0); transition: transform 1400ms var(--ease); transition-delay: var(--delay, 0ms); }
+    .js .highlights.counted li::after { transform: scaleX(1); }
+  }
+
+  .groups { display: grid; gap: var(--s-8); }
+  @media (min-width: 820px) { .groups { grid-template-columns: 1fr 1fr; gap: var(--s-10) var(--s-12); } }
+  .group h4 { font-size: var(--t-xs); font-family: var(--mono); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; color: var(--muted); margin-bottom: var(--s-3); }
+  .group ul { display: grid; gap: var(--s-3); list-style: none; }
+  .group li { position: relative; padding-left: var(--s-5); font-size: var(--t-sm); color: var(--ink-2); line-height: 1.6; }
+  .group li::before { content: ""; position: absolute; left: 2px; top: 0.7em; width: 6px; height: 1px; background: var(--muted); }
+
+  /* Key terms: full-strength ink over a soft accent band. In the Boeing card it sweeps in when the card appears. */
+  .group :global(mark.term), .tl-part :global(mark.term) {
+    color: var(--ink); padding: 0 2px; margin: 0 -2px; border-radius: 3px;
+    background: linear-gradient(var(--accent-mark), var(--accent-mark)) no-repeat 0 88% / 100% 42%;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .js .job .group :global(mark.term) { background-size: 0% 42%; transition: background-size 900ms var(--ease) 350ms; }
+    .js .job.in .group :global(mark.term) { background-size: 100% 42%; }
+  }
+
+  .timeline { margin-top: var(--s-16); }
+  .tl-title { font-size: var(--t-md); margin-bottom: var(--s-8); }
+  .timeline ol { --rail: 5px; list-style: none; padding: 0; margin: 0; }
+  .timeline ol > li { position: relative; display: grid; gap: var(--s-2); padding: 0 0 var(--s-12) var(--s-8); }
+  .timeline ol > li:last-child { padding-bottom: 0; }
+  @media (min-width: 820px) {
+    .timeline ol { --rail: calc(12rem + var(--s-6)); }
+    .timeline ol > li { grid-template-columns: 12rem 1fr; column-gap: var(--s-12); padding-left: 0; }
+  }
+  /* The rail: a line from each dot to the next one. */
+  .timeline ol > li::before { content: ""; position: absolute; left: var(--rail); top: 14px; bottom: -6px; width: 1px; background: var(--line); }
+  .timeline ol > li:last-child::before { display: none; }
+  .timeline ol > li::after {
+    content: ""; position: absolute; left: var(--rail); top: 6px; width: 11px; height: 11px; translate: -5px 0;
+    border-radius: 50%; background: var(--bg); border: 1px solid var(--muted);
+  }
+  .timeline ol > li:first-child::after { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+
+  .tl-dates { color: var(--muted); padding-top: 3px; }
+  .tl-detail { margin-top: var(--s-1); font-size: var(--t-sm); color: var(--muted); max-width: 42rem; }
+
+  .tl-parts { display: grid; gap: var(--s-6); margin-top: var(--s-6); max-width: 46rem; }
+  .tl-part { padding-left: var(--s-4); border-left: 1px solid var(--line); }
+  .tl-part-head { font-size: var(--t-sm); color: var(--ink); display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-3); }
+  .tl-part-head .mono { font-size: var(--t-xs); }
+  .tl-part ul { display: grid; gap: var(--s-2); list-style: none; margin-top: var(--s-2); }
+  .tl-part li { position: relative; padding-left: var(--s-5); font-size: var(--t-sm); color: var(--ink-2); line-height: 1.6; }
+  .tl-part li::before { content: ""; position: absolute; left: 2px; top: 0.7em; width: 6px; height: 1px; background: var(--muted); }
+</style>
+
+<script>
+  // Count the Boeing stats up from zero the first time they scroll into view.
+  const list = document.querySelector<HTMLElement>("[data-countup]");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (list && !reduce && "IntersectionObserver" in window) {
+    const nums = [...list.querySelectorAll<HTMLElement>("[data-count]")];
+    nums.forEach((el, i) => {
+      el.textContent = "0" + (el.dataset.suffix ?? "");
+      el.closest("li")?.style.setProperty("--delay", `${i * 120}ms`);
+    });
+    const ease = (t: number) => 1 - Math.pow(1 - t, 4);
+    const run = () => {
+      list.classList.add("counted");
+      nums.forEach((el, i) => {
+        const target = Number(el.dataset.count);
+        const suffix = el.dataset.suffix ?? "";
+        const start = performance.now() + i * 120;
+        const step = (now: number) => {
+          const t = Math.min(Math.max((now - start) / 1400, 0), 1);
+          el.textContent = Math.round(target * ease(t)) + suffix;
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          run();
+        }
+      },
+      { threshold: 0.6 }
+    );
+    io.observe(list);
+  }
+</script>

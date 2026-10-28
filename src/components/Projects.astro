@@ -1,0 +1,161 @@
+---
+import { getCollection } from "astro:content";
+import Diagram from "./Diagram.astro";
+import ProjectLinks from "./ProjectLinks.astro";
+
+const all = (await getCollection("projects", (p) => p.data.published)).sort((a, b) => a.data.order - b.data.order);
+const featured = all.filter((p) => p.data.featured);
+const [lead, ...cards] = featured;
+const more = all.filter((p) => !p.data.featured);
+const href = (id: string) => `/projects/${id}/`;
+---
+<section id="projects" class="section" aria-labelledby="projects-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">01 · Projects</p>
+      <h2 id="projects-title">Backend services and the cloud they run on.</h2>
+      <p>A real-time game backend for TikTok LIVE, a marketplace API, and the AWS infrastructure behind this site. Each one has a write-up with the architecture.</p>
+    </header>
+
+    {lead && (
+      <article class="lead" data-reveal>
+        <div class="lead-top">
+          <div class="lead-text">
+            <p class="kicker"><span>{lead.data.domain}</span><span>{lead.data.context}</span>{lead.data.status === "in-progress" && <span class="status">In progress</span>}</p>
+            <h3 data-project-title={lead.id}><a href={href(lead.id)}>{lead.data.title}</a></h3>
+            <p class="tagline">{lead.data.tagline}</p>
+            <p class="summary">{lead.data.summary}</p>
+          </div>
+          {lead.data.metrics.length > 0 && <ul class="metrics">
+            {lead.data.metrics.map((m) => <li><strong>{m.value}</strong><span>{m.label}</span></li>)}
+          </ul>}
+        </div>
+        <Diagram columns={lead.data.diagram} tone="dark" label={`${lead.data.title} architecture`} />
+        <div class="lead-foot">
+          <ul class="chips dark">{lead.data.stack.map((s) => <li>{s}</li>)}</ul>
+          <div class="links">
+            <a class="read" href={href(lead.id)}>Read the case study <span aria-hidden="true">→</span></a>
+            <ProjectLinks title={lead.data.title} demo={lead.data.demo} repo={lead.data.repo} tone="dark" />
+          </div>
+        </div>
+      </article>
+    )}
+
+    <div class="grid">
+      {cards.map((p) => (
+        <article class="card" data-reveal>
+          <p class="kicker"><span>{p.data.domain}</span>{p.data.status === "in-progress" && <span class="status">In progress</span>}</p>
+          <h3 data-project-title={p.id}><a href={href(p.id)}>{p.data.title}</a></h3>
+          <p class="tagline">{p.data.tagline}</p>
+          {p.data.metrics[0] && (
+            <p class="metric"><strong>{p.data.metrics[0].value}</strong> {p.data.metrics[0].label}</p>
+          )}
+          <div class="card-foot">
+            <ul class="chips">{p.data.stack.slice(0, 5).map((s) => <li>{s}</li>)}</ul>
+            <ProjectLinks title={p.data.title} demo={p.data.demo} repo={p.data.repo} />
+          </div>
+          <span class="more-arrow" aria-hidden="true">→</span>
+        </article>
+      ))}
+    </div>
+
+    {more.length > 0 && (
+      <div class="more" data-reveal>
+        <h3 class="more-title">More projects</h3>
+        <ul class="rows">
+          {more.map((p) => (
+            <li>
+              <a href={href(p.id)}>
+                <span class="row-title">{p.data.title}</span>
+                <span class="row-tag">{p.data.tagline}</span>
+                <span class="row-stack mono">{p.data.stack.slice(0, 3).join(" · ")}</span>
+                <span class="row-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .kicker { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); font-family: var(--mono); font-size: var(--t-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; }
+
+  /* featured: dark panel */
+  .lead {
+    background: var(--panel); color: var(--panel-ink);
+    border: 1px solid var(--panel-line); border-radius: var(--r-lg);
+    padding: var(--s-6); display: grid; gap: var(--s-8);
+  }
+  @media (min-width: 720px) { .lead { padding: var(--s-10); } }
+  .lead .kicker { color: var(--panel-muted); }
+  .lead .status { color: var(--accent); }
+  .lead-top { display: grid; gap: var(--s-8); }
+  @media (min-width: 960px) { .lead-top { grid-template-columns: 1fr auto; align-items: end; gap: var(--s-16); } }
+  .lead h3 { margin-top: var(--s-3); font-size: var(--t-xl); letter-spacing: -0.01em; }
+  .lead .tagline { margin-top: var(--s-3); font-size: var(--t-lg); color: var(--panel-ink); letter-spacing: -0.01em; }
+  .lead .summary { margin-top: var(--s-4); color: var(--panel-muted); max-width: 38rem; }
+  .metrics { list-style: none; display: grid; grid-template-columns: repeat(3, auto); gap: var(--s-6); }
+  @media (min-width: 960px) { .metrics { grid-template-columns: 1fr; gap: var(--s-5); text-align: right; } }
+  .metrics li { display: grid; gap: 2px; }
+  .metrics strong { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
+  .metrics span { font-size: var(--t-xs); color: var(--panel-muted); max-width: 12rem; }
+  @media (min-width: 960px) { .metrics span { margin-left: auto; } }
+  .lead-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); }
+  /* Tech chips match the hero carousel. On the dark panel the brighter accent keeps the text readable. */
+  .lead .chips, .card .chips { gap: 6px; }
+  .lead .chips li, .card .chips li { font-size: 12px; line-height: 1; padding: 6px 9px; background: var(--accent-soft); color: var(--accent-text); }
+  .lead .chips.dark li { background: rgba(42, 157, 143, 0.18); color: var(--accent); }
+  .links { display: flex; align-items: center; gap: var(--s-5); font-size: var(--t-sm); font-weight: 400; }
+  .links a { text-decoration: none; color: var(--panel-muted); transition: color 200ms var(--ease); }
+  .links a:hover { color: var(--panel-ink); }
+  .links .read { color: var(--accent); }
+  .links .read:hover { color: var(--panel-ink); }
+
+  /* other featured: cards */
+  .grid { display: grid; gap: var(--s-4); margin-top: var(--s-4); }
+  @media (min-width: 820px) { .grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); } }
+  .card {
+    position: relative; display: flex; flex-direction: column; gap: var(--s-3);
+    padding: var(--s-6); border-radius: var(--r-lg);
+    background: var(--card); border: 1px solid var(--line);
+    transition: border-color 200ms var(--ease), transform 300ms var(--ease), box-shadow 300ms var(--ease);
+  }
+  .card:hover { border-color: var(--muted); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .card h3 { font-size: var(--t-lg); }
+  /* whole card is clickable through the title link */
+  .card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .card h3 a:hover { text-decoration: none; }
+  .card .tagline { color: var(--muted); font-size: var(--t-sm); }
+  .metric { font-size: var(--t-sm); color: var(--muted); margin-top: auto; padding-top: var(--s-3); }
+  .metric strong { color: var(--ink); font-size: var(--t-lg); font-weight: 400; letter-spacing: -0.01em; margin-right: 2px; }
+  .card-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-4); margin-top: var(--s-2); }
+  .more-arrow { position: absolute; top: var(--s-6); right: var(--s-6); color: var(--muted); transition: transform 200ms var(--ease), color 200ms var(--ease); }
+  .card:hover .more-arrow { transform: translateX(3px); color: var(--ink); }
+
+  /* the rest: compact rows */
+  .more { margin-top: var(--s-16); }
+  .more-title { font-size: var(--t-md); font-weight: 400; margin-bottom: var(--s-3); }
+  .rows { list-style: none; border-top: 1px solid var(--line); }
+  .rows li { border-bottom: 1px solid var(--line); }
+  .rows a {
+    display: grid; grid-template-columns: 1fr auto; gap: var(--s-1) var(--s-6); align-items: baseline;
+    padding: var(--s-5) var(--s-2); text-decoration: none; border-radius: var(--r-sm);
+    transition: background-color 200ms var(--ease);
+  }
+  .rows a:hover { background: var(--chip); }
+  .row-title { font-weight: 400; }
+  .row-tag { grid-column: 1; color: var(--muted); font-size: var(--t-sm); }
+  .row-stack { display: none; color: var(--muted); }
+  .row-arrow { grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--muted); transition: transform 200ms var(--ease); }
+  .rows a:hover .row-arrow { transform: translateX(3px); color: var(--ink); }
+  @media (min-width: 820px) {
+    .rows a { grid-template-columns: 17rem 1fr auto auto; }
+    .row-tag { grid-column: auto; }
+    .row-stack { display: block; }
+    .row-arrow { grid-row: auto; grid-column: auto; }
+  }
+</style>
