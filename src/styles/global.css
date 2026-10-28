@@ -152,3 +152,10 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; 
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* Page transitions (View Transitions API, opted in from Base.astro). Pages
+   crossfade quickly; a project's title morphs into its case study heading and
+   back. Browsers without support switch pages instantly. */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 200ms; }
+::view-transition-group(project-title) { animation-duration: 380ms; animation-timing-function: var(--ease); }
+[data-project-title] { width: fit-content; }

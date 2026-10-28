@@ -32,7 +32,7 @@ const sketch = (diagram: string[][]) => diagram.slice(0, 5).map((col) => col[0].
         </a>
         <p class="kicker"><span class="num">{String(i + 1).padStart(2, "0")}</span>{p.data.domain}{p.data.status === "in-progress" && <span class="status">In progress</span>}</p>
         <div class="title-row">
-          <h3><a href={`/projects/${p.id}/`}>{p.data.title}</a></h3>
+          <h3 data-project-title={p.id}><a href={`/projects/${p.id}/`}>{p.data.title}</a></h3>
           <ProjectLinks title={p.data.title} demo={p.data.demo} repo={p.data.repo} />
         </div>
         {p.data.metrics[0] ? (

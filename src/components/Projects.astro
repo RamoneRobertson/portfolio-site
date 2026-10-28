@@ -22,7 +22,7 @@ const href = (id: string) => `/projects/${id}/`;
         <div class="lead-top">
           <div class="lead-text">
             <p class="kicker"><span>{lead.data.domain}</span><span>{lead.data.context}</span>{lead.data.status === "in-progress" && <span class="status">In progress</span>}</p>
-            <h3><a href={href(lead.id)}>{lead.data.title}</a></h3>
+            <h3 data-project-title={lead.id}><a href={href(lead.id)}>{lead.data.title}</a></h3>
             <p class="tagline">{lead.data.tagline}</p>
             <p class="summary">{lead.data.summary}</p>
           </div>
@@ -45,7 +45,7 @@ const href = (id: string) => `/projects/${id}/`;
       {cards.map((p) => (
         <article class="card" data-reveal>
           <p class="kicker"><span>{p.data.domain}</span>{p.data.status === "in-progress" && <span class="status">In progress</span>}</p>
-          <h3><a href={href(p.id)}>{p.data.title}</a></h3>
+          <h3 data-project-title={p.id}><a href={href(p.id)}>{p.data.title}</a></h3>
           <p class="tagline">{p.data.tagline}</p>
           {p.data.metrics[0] && (
             <p class="metric"><strong>{p.data.metrics[0].value}</strong> {p.data.metrics[0].label}</p>

@@ -36,6 +36,8 @@ const person = {
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <!-- Hold the first paint until <main> is parsed, so a page transition can find the project titles. -->
+  <link rel="expect" href="#main-end" blocking="render" />
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="website" />
@@ -45,9 +47,49 @@ const person = {
   <meta property="og:image" content={ogImage} />
   <meta name="twitter:card" content="summary" />
   <script type="application/ld+json" set:html={JSON.stringify(person)} />
+  <!-- Opt in to page transitions. This has to come before the inline script below:
+       Chrome settles the opt-in when that script runs, before site CSS has loaded. -->
+  <style is:inline>
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+  </style>
   <script is:inline>
     // Apply the saved theme before first paint to avoid a flash.
     document.documentElement.classList.add("js");
+    // Page transitions: the home page shows each project title more than once,
+    // so only the one involved in the navigation gets the shared name.
+    (function () {
+      var root = document.documentElement;
+      var name = function (el) { if (el) el.style.viewTransitionName = "project-title"; };
+      var inView = function (el) { var r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; };
+      // Leaving: the title of the project that was clicked.
+      document.addEventListener("click", function (e) {
+        var a = e.target.closest && e.target.closest("a[href^='/projects/']");
+        var box = a && a.closest("article");
+        name(box && box.querySelector("[data-project-title]"));
+      });
+      // Arriving back from a case study: the visible title of that project.
+      addEventListener("pagereveal", function (e) {
+        // Jump straight to a #section link's target. Smooth scrolling would start
+        // at the top and leave the transition morphing toward an off-screen title.
+        var target = location.hash && document.getElementById(location.hash.slice(1));
+        if (target) {
+          root.style.scrollBehavior = "auto";
+          target.scrollIntoView();
+          root.style.scrollBehavior = "";
+        }
+        if (!e.viewTransition || !window.navigation || !navigation.activation || !navigation.activation.from) return;
+        var m = new URL(navigation.activation.from.url).pathname.match(/^\/projects\/([^/]+)\/$/);
+        if (!m) return;
+        var sel = '[data-project-title="' + m[1] + '"]';
+        var els = document.querySelectorAll(sel);
+        for (var i = 0; i < els.length; i++) if (inView(els[i])) return name(els[i]);
+      });
+      // Clear names left on a page restored from the back/forward cache.
+      addEventListener("pageshow", function (e) {
+        if (e.persisted) document.querySelectorAll("[data-project-title]").forEach(function (el) { el.style.viewTransitionName = ""; });
+      });
+    })();
     // The loading screen only plays on the first page of a visit.
     try {
       if (sessionStorage.getItem("loader-seen")) document.documentElement.classList.add("loaded");
@@ -64,6 +106,7 @@ const person = {
   <Header />
   <main id="main">
     <slot />
+    <span id="main-end" hidden></span>
   </main>
   <Footer />
   <script>
